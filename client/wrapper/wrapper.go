@@ -6,7 +6,7 @@ import (
 
 	"context"
 
-	example "github.com/go-micro/examples/server/proto/example"
+	example "github.com/luoruofeng/go-micro-example/server/proto/example"
 	"go-micro.dev/v4/client"
 	"go-micro.dev/v4/metadata"
 	"go-micro.dev/v4/registry"

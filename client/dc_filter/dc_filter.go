@@ -12,7 +12,7 @@ import (
 	"go-micro.dev/v4/selector"
 	"go-micro.dev/v4/util/cmd"
 
-	example "github.com/go-micro/examples/server/proto/example"
+	example "github.com/luoruofeng/go-micro-example/server/proto/example"
 )
 
 func init() {

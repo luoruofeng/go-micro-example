@@ -5,11 +5,11 @@ import (
 
 	"context"
 
-	"github.com/go-micro/examples/server/subscriber"
+	"github.com/luoruofeng/go-micro-example/server/subscriber"
 	"go-micro.dev/v4/server"
 	"go-micro.dev/v4/util/cmd"
 
-	example "github.com/go-micro/examples/server/proto/example"
+	example "github.com/luoruofeng/go-micro-example/server/proto/example"
 )
 
 type Example struct{}
