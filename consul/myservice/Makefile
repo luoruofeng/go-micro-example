@@ -5,11 +5,10 @@ init:
 	@go get -u google.golang.org/protobuf/proto
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	@go install github.com/go-micro/generator/cmd/protoc-gen-micro@latest
-	@go install github.com/kyleconroy/sqlc/cmd/sqlc@latest
 
 .PHONY: proto
 proto:
-	@protoc --proto_path=. --micro_out=. --go_out=:. proto/hello.proto
+	@protoc --proto_path=. --micro_out=. --go_out=:. proto/myservice.proto
 
 .PHONY: update
 update:
@@ -21,7 +20,7 @@ tidy:
 
 .PHONY: build
 build:
-	@go build -o hello *.go
+	@go build -o myservice *.go
 
 .PHONY: test
 test:
@@ -29,4 +28,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t hello:latest .
+	@docker build -t myservice:latest .
