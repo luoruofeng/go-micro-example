@@ -1,4 +1,4 @@
-module github.com/luorufoeng/go-micro-example/consul/myservice
+module github.com/luoruofeng/go-micro-example/consul/myservice
 
 go 1.18
 

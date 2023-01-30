@@ -1,12 +1,15 @@
 package main
 
 import (
+	"time"
+
 	"github.com/go-micro/plugins/v4/registry/consul"
-	"github.com/luorufoeng/go-micro-example/consul/myservice/handler"
-	pb "github.com/luorufoeng/go-micro-example/consul/myservice/proto"
+	"github.com/luoruofeng/go-micro-example/consul/myservice/handler"
+	pb "github.com/luoruofeng/go-micro-example/consul/myservice/proto"
 
 	"go-micro.dev/v4"
 	"go-micro.dev/v4/logger"
+	"go-micro.dev/v4/registry"
 )
 
 var (
@@ -17,11 +20,18 @@ var (
 func main() {
 	// Create service
 	srv := micro.NewService()
+
+	//setup micro service
 	srv.Init(
 		micro.Name(service),
 		micro.Version(version),
-		micro.Registry(consul.NewRegistry()),
-		micro.Address(":8888"),
+		micro.Registry(
+			consul.NewRegistry(
+				registry.Addrs("127.0.0.1:8500"),
+			)),
+		micro.Address(":0"),
+		micro.RegisterTTL(time.Minute*30),
+		micro.RegisterInterval(time.Minute*10),
 	)
 
 	// Register handler

@@ -5,7 +5,7 @@ import (
 
 	"go-micro.dev/v4/logger"
 
-	pb "github.com/luorufoeng/go-micro-example/consul/myservice/proto"
+	pb "github.com/luoruofeng/go-micro-example/consul/myservice/proto"
 )
 
 type Myservice struct{}

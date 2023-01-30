@@ -6,20 +6,25 @@ import (
 	"context"
 
 	"github.com/go-micro/plugins/v4/registry/consul"
-	"github.com/luorufoeng/go-micro-example/consul/myservice/proto"
+
+	pb "github.com/luoruofeng/go-micro-example/consul/myservice/proto"
 	"go-micro.dev/v4"
 	"go-micro.dev/v4/client"
+	"go-micro.dev/v4/registry"
 )
 
 func main() {
 	service := micro.NewService(
-		micro.Client(client.DefaultClient()),
-		micro.Registry(consul.NewRegistry()),
+		micro.Client(client.DefaultClient),
+		micro.Registry(
+			consul.NewRegistry(
+				registry.Addrs("127.0.0.1:8500"),
+			)),
 	)
 	service.Init()
 
-	client := proto.NewMyserviceService("", service.Client())
-	rep, err := client.Call(context.Background(), &proto.CallRequest{
+	client := pb.NewMyserviceService("myservice", service.Client())
+	rep, err := client.Call(context.Background(), &pb.CallRequest{
 		Name: "luoruofeng",
 	})
 	if err != nil {
@@ -27,5 +32,4 @@ func main() {
 		return
 	}
 	fmt.Println(rep.Msg)
-
 }
