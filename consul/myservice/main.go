@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/go-micro/plugins/v4/registry/consul"
@@ -18,6 +21,19 @@ var (
 )
 
 func main() {
+	myservice_port := os.Getenv("myservice_port")
+	consul_addr := os.Getenv("consul_addr")
+
+	//listen random port
+	port := 0
+	if myservice_port != "" {
+		port, _ = strconv.Atoi(myservice_port)
+	}
+
+	if consul_addr == "" {
+		consul_addr = "127.0.0.1:8500"
+	}
+
 	// Create service
 	srv := micro.NewService()
 
@@ -25,11 +41,12 @@ func main() {
 	srv.Init(
 		micro.Name(service),
 		micro.Version(version),
+		micro.Address(fmt.Sprintf(":%d", port)),
 		micro.Registry(
 			consul.NewRegistry(
-				registry.Addrs("127.0.0.1:8500"),
+				registry.Addrs(consul_addr),
 			)),
-		micro.Address(":0"),
+
 		micro.RegisterTTL(time.Minute*30),
 		micro.RegisterInterval(time.Minute*10),
 	)

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"context"
 
@@ -14,11 +15,20 @@ import (
 )
 
 func main() {
+	fmt.Println("---myclient start---")
+	consul_addr_arg := os.Getenv("consul_addr")
+	//listen random port
+	consul_addr := "127.0.0.1:8500"
+	if consul_addr_arg != "" {
+		consul_addr = consul_addr_arg
+	}
+	fmt.Println(consul_addr)
+
 	service := micro.NewService(
 		micro.Client(client.DefaultClient),
 		micro.Registry(
 			consul.NewRegistry(
-				registry.Addrs("127.0.0.1:8500"),
+				registry.Addrs(consul_addr),
 			)),
 	)
 	service.Init()

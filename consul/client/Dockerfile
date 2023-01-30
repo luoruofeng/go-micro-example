@@ -1,8 +1,8 @@
-FROM golang:alpine AS builder
+FROM golang:alpine
 
 # Set Go env
 ENV CGO_ENABLED=0 GOOS=linux
-WORKDIR /go/src/myservice
+WORKDIR /go/src/myclient
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN apk update && apk add --no-cache git
@@ -13,15 +13,11 @@ RUN go env -w GOPROXY=https://goproxy.cn,direct
 RUN apk --update --no-cache add ca-certificates gcc libtool make musl-dev protoc git
 
 # Build Go binary
-COPY Makefile go.mod go.sum ./
-RUN make init && go mod download 
+COPY go.mod go.sum ./
+RUN go mod download 
 COPY . .
-RUN make proto tidy build
+RUN go mod tidy
+RUN go build .
 
-# Deployment container
-FROM scratch
-
-COPY --from=builder /etc/ssl/certs /etc/ssl/certs
-COPY --from=builder /go/src/myservice/myservice /myservice
-ENTRYPOINT ["/myservice"]
+ENTRYPOINT ["/go/src/myclient/client"]
 CMD []
