@@ -9,6 +9,12 @@ go-micro new service github.com/luorufoeng/go-micro-example/cli/helloworld
 cd helloworld
 make init proto update tidy
 
+# 也可以加上相关的参数，如：
+# go-micro new service --grpc --health github.com/luorufoeng/go-micro-example/cli/helloworld
+# cd helloworld
+
+# client也可以通过命令行生成，要把server的proto文件夹复制到项目中：
+# go-micro new client --grpc github.com/luorufoeng/go-micro-example/cli/helloworld
 
 # 指定端口
 # srv.Init方法中添加micro.Address(":8080"),

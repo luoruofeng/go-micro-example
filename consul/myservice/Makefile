@@ -8,7 +8,7 @@ init:
 
 .PHONY: proto
 proto:
-	@protoc --proto_path=. --micro_out=. --go_out=:. proto/myservice.proto
+	@protoc --proto_path=. --micro_out=. --go_out=:. proto/*.proto
 
 .PHONY: update
 update:
@@ -20,7 +20,7 @@ tidy:
 
 .PHONY: build
 build:
-	@go build -o myservice *.go
+	@go build -o myservice main.go
 
 .PHONY: test
 test:
