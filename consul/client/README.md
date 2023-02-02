@@ -1,6 +1,9 @@
 ## 该client是用于测试myservice是否可调用。是成功启动consul和myservice的后续操作。
 
-
+```shell
+# 可以这样生成client，然后把myservice中的proto文件夹复制到这个client项目下使用。
+go-micro new client --grpc myservice
+```
 
 - 如果没有通过docker来启动myservice则可以直接通过*go run .*来测试
 

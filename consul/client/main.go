@@ -10,8 +10,9 @@ import (
 
 	pb "github.com/luoruofeng/go-micro-example/consul/myservice/proto"
 	"go-micro.dev/v4"
-	"go-micro.dev/v4/client"
 	"go-micro.dev/v4/registry"
+
+	grpcc "github.com/go-micro/plugins/v4/client/grpc"
 )
 
 func main() {
@@ -25,7 +26,7 @@ func main() {
 	fmt.Println(consul_addr)
 
 	service := micro.NewService(
-		micro.Client(client.DefaultClient),
+		micro.Client(grpcc.NewClient()),
 		micro.Registry(
 			consul.NewRegistry(
 				registry.Addrs(consul_addr),
