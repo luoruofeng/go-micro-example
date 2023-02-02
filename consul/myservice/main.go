@@ -13,6 +13,9 @@ import (
 	"go-micro.dev/v4"
 	"go-micro.dev/v4/logger"
 	"go-micro.dev/v4/registry"
+
+	grpcc "github.com/go-micro/plugins/v4/client/grpc"
+	grpcs "github.com/go-micro/plugins/v4/server/grpc"
 )
 
 var (
@@ -35,7 +38,10 @@ func main() {
 	}
 
 	// Create service
-	srv := micro.NewService()
+	srv := micro.NewService(
+		micro.Server(grpcs.NewServer()),
+		micro.Client(grpcc.NewClient()),
+	)
 
 	//setup micro service
 	srv.Init(
@@ -47,14 +53,18 @@ func main() {
 				registry.Addrs(consul_addr),
 			)),
 
-		micro.RegisterTTL(time.Minute*30),
-		micro.RegisterInterval(time.Minute*10),
+		micro.RegisterTTL(20*time.Second),
+		micro.RegisterInterval(10*time.Second),
 	)
 
 	// Register handler
 	if err := pb.RegisterMyserviceHandler(srv.Server(), new(handler.Myservice)); err != nil {
 		logger.Fatal(err)
 	}
+	if err := pb.RegisterHealthHandler(srv.Server(), new(handler.Health)); err != nil {
+		logger.Fatal(err)
+	}
+
 	// Run service
 	if err := srv.Run(); err != nil {
 		logger.Fatal(err)

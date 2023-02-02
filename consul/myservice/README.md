@@ -8,7 +8,7 @@ docker-compose up -d
 
 ```
 #创建微服务
-go-micro new service github.com/luorufoeng/go-micro-example/consul/myservice
+go-micro new service --grpc --health github.com/luorufoeng/go-micro-example/consul/myservice
 ```
 
 - *proto/myservice.proto*已经做了修改删除了不必要的方法
@@ -42,7 +42,7 @@ RUN go env -w GOPROXY=https://goproxy.cn,direct
 #构建
 make docker
 #运行(使用的是172.23.0.5是sconsul1的容器ip。consul和myservice都在同一个network中，所以可以使用。consul目前是通过docker运行的，端口映射到宿主机。也可以使用宿主机的IP。)
-docker run  --network=datacenter-deploy-secure_consul -e myservice_port=8080 -e consul_addr=172.23.0.5:8500 -p 8080:8080 myservice:latest
+docker run --network=datacenter-deploy-secure_consul -e myservice_port=8080 -e consul_addr=172.23.0.5:8500 -p 8080:8080 myservice:latest
 ```
 
 - 运行后请确保service和consul都是使用docker，并且在同一个网络下。可以互相ping通。
