@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/go-micro/plugins/v4/registry/consul"
+	"github.com/luoruofeng/go-micro-example/consul/myservice/config"
 	"github.com/luoruofeng/go-micro-example/consul/myservice/handler"
 	pb "github.com/luoruofeng/go-micro-example/consul/myservice/proto"
-
 	"go-micro.dev/v4"
 	"go-micro.dev/v4/logger"
 	"go-micro.dev/v4/registry"
@@ -35,6 +35,11 @@ func main() {
 
 	if consul_addr == "" {
 		consul_addr = "127.0.0.1:8500"
+	}
+
+	// init config
+	if err := config.Init(consul_addr); err != nil {
+		panic(err)
 	}
 
 	// Create service
@@ -64,6 +69,18 @@ func main() {
 	if err := pb.RegisterHealthHandler(srv.Server(), new(handler.Health)); err != nil {
 		logger.Fatal(err)
 	}
+
+	go func() {
+		time.Sleep(time.Second * 3)
+		// LoadConfig("./config.json")
+		config.ConfigSet("abc", "123")
+		fmt.Println(config.ConfigGet("abc"))
+
+		config.Config.Get("mysql").Scan(&config.MysqlCnf)
+		config.Config.Get("log").Scan(&config.LogCnf)
+		fmt.Println(config.MysqlCnf)
+		fmt.Println(config.LogCnf)
+	}()
 
 	// Run service
 	if err := srv.Run(); err != nil {

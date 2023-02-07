@@ -48,3 +48,11 @@ docker run --network=datacenter-deploy-secure_consul -e myservice_port=8080 -e c
 - 运行后请确保service和consul都是使用docker，并且在同一个网络下。可以互相ping通。
 
 - 如果是容器启动服务，需要把*client文件夹*中的main.go也做成容器镜像运行，并且保证，server和client的容器可以互相ping通（使用docker的默认桥连接网络或者使用同一个network）
+
+
+# 配置中心
+
+```shell 
+go get github.com/go-micro/plugins/v4/config/source/consul
+go get github.com/go-micro/config/v4/source/flag
+```

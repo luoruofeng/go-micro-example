@@ -81,6 +81,8 @@ github.com/go-git/go-git/v5 v5.5.2 h1:v8lgZa5k9ylUw+OR/roJHTxR4QItsNFI5nKtAXFuyn
 github.com/go-git/go-git/v5 v5.5.2/go.mod h1:BE5hUJ5yaV2YMxhmaP4l6RBQ08kMxKSPD4BlxtH7OjI=
 github.com/go-micro/plugins/v4/client/grpc v1.2.0 h1:Z8BB6jqslXM2aMMhjZ+QfNuzR+msCMtGd83DGlsQQG0=
 github.com/go-micro/plugins/v4/client/grpc v1.2.0/go.mod h1:3fDuzyfYLwEImn8+lkhKl3W4Ay1jFevkTeC32PBlgQs=
+github.com/go-micro/plugins/v4/config/source/consul v1.2.0 h1:AZ2L6vP8Cy3Sh2VI/9E8RmdkjdZPGqK8J3aE2rxQf5g=
+github.com/go-micro/plugins/v4/config/source/consul v1.2.0/go.mod h1:/v+vqsTJX0mZSahKKxcnAVF+TxPYRKbZBaOt9bI1YzI=
 github.com/go-micro/plugins/v4/registry/consul v1.2.0 h1:nqrTzfWUTWKAy+M+i2FazbHnQn4m77EOtoch57kbCH4=
 github.com/go-micro/plugins/v4/registry/consul v1.2.0/go.mod h1:wTat7/K9XQ+i64VbbcMYFcEwipYfSgJM51HcA/sgsM4=
 github.com/go-micro/plugins/v4/server/grpc v1.2.0 h1:lXfM+/0oE/u1g0hVBYsvbP4lYOYXYOmwf5qH7ghi7Cc=

@@ -6,4 +6,3 @@ reference https://github.com/go-micro/plugins/blob/main/v4/registry/consul/regis
 ----
 - *myservice* folder is gencode by go-micro.
 - *client* folder is grpc caller.
-- *myservice2* folder is generate by myself.
