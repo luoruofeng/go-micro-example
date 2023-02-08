@@ -13,6 +13,8 @@ require (
 require (
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
 	github.com/fatih/color v1.9.0 // indirect
+	github.com/ghodss/yaml v1.0.0 // indirect
+	github.com/go-micro/plugins/v4/config/encoder/yaml v1.2.0 // indirect
 	github.com/go-micro/plugins/v4/config/source/consul v1.2.0 // indirect
 	github.com/hashicorp/consul/api v1.18.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
@@ -27,6 +29,8 @@ require (
 	github.com/mitchellh/hashstructure v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	google.golang.org/genproto v0.0.0-20211021150943-2b146023228c // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (

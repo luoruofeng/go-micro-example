@@ -10,8 +10,7 @@ import (
 	"go-micro.dev/v4/util/log"
 )
 
-// defaultMysqlConfig mysql 配置
-type MysqlConfig struct {
+type mysqlConfig struct {
 	Host         string `json:"host"`
 	Port         int    `json:"port"`
 	User         string `json:"user"`
@@ -21,21 +20,18 @@ type MysqlConfig struct {
 	MaxIdleConns string `json:"max_idle_conns"`
 }
 
-type LogConfig struct {
-	Level      string `yaml:"level"`
-	Filename   string `yaml:filename"`
-	MaxSize    int    `yaml:max_size"`
-	MaxAge     int    `yaml:max_age"`
-	MaxBackips int    `yaml:max_backips"`
+type prometheusConfig struct {
+	Host string `json:"host"`
+	Port int    `json:"port"`
 }
 
 var CONFIG_PREFIX = "micro/config"
-var CONFIG_FILE_PATH = "config.json"
+var CONFIG_FILE_PATH = "config/prometheus.json"
 
 var (
-	Config   config.Config
-	MysqlCnf MysqlConfig
-	LogCnf   LogConfig
+	cnf           config.Config
+	MysqlCnf      mysqlConfig
+	PrometheusCnf prometheusConfig
 )
 
 func Init(consul_addr string) error {
@@ -49,21 +45,23 @@ func Init(consul_addr string) error {
 		consul.StripPrefix(true),
 	)
 
-	// Create a config instance
 	conf, err := config.NewConfig()
 	if err != nil {
 		fmt.Println("Error consul config:", err)
 		return err
 	}
-	conf.Load(consulSource)
+
+	//加载source前需要在consul创建micro/config/mysql
+	err = conf.Init(config.WithSource(consulSource))
+
+	if err != nil {
+		fmt.Println("Error consul init:", err)
+		return err
+	}
 
 	//把consul中设置好了的值设置到全局变量中
-	//这个mysql是提前在consul的控制面板中配置好了的值。key是micro/config/mysql
+	//提前在consul的控制面板中配置好了的值。key是micro/config/mysql
 	conf.Get("mysql").Scan(&MysqlCnf)
-	conf.Get("log").Scan(&LogCnf)
-
-	// Add a config file source
-	// LoadConfig(CONFIG_FILE_PATH)
 
 	// 侦听文件变动
 	watcher, err := conf.Watch()
@@ -85,15 +83,25 @@ func Init(consul_addr string) error {
 		}
 	}()
 
-	Config = conf
+	cnf = conf
+
+	// 另一种把数据加载到config中的方法，是不通过consul已经配置好的kv，而是直接把一个配置文件加载到config中
+	LoadConfig(CONFIG_FILE_PATH)
+	conf.Get("prometheus").Scan(&PrometheusCnf)
+
+	//可以查看目前有config中的kv
+	// go func() {
+	// 	time.Sleep(time.Second * 3)
+	// 	fmt.Println(ConfigMap())
+	// }()
+
 	return nil
 }
 
 func LoadConfig(configPath string) error {
 	// 加载配置文件
-	if err := Config.Load(file.NewSource(
-		file.WithPath(configPath),
-	)); err != nil {
+	fileSource := file.NewSource(file.WithPath(configPath))
+	if err := cnf.Load(fileSource); err != nil {
 		fmt.Println(err)
 		return err
 	}
@@ -102,9 +110,13 @@ func LoadConfig(configPath string) error {
 
 func ConfigGet(key string) string {
 	// Get the value from config
-	return Config.Get(key).String("")
+	return cnf.Get(key).String("")
+}
+
+func ConfigMap() map[string]interface{} {
+	return cnf.Map()
 }
 
 func ConfigSet(key string, val interface{}) {
-	Config.Set(val, key)
+	cnf.Set(val, key)
 }

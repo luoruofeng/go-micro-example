@@ -70,18 +70,6 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	go func() {
-		time.Sleep(time.Second * 3)
-		// LoadConfig("./config.json")
-		config.ConfigSet("abc", "123")
-		fmt.Println(config.ConfigGet("abc"))
-
-		config.Config.Get("mysql").Scan(&config.MysqlCnf)
-		config.Config.Get("log").Scan(&config.LogCnf)
-		fmt.Println(config.MysqlCnf)
-		fmt.Println(config.LogCnf)
-	}()
-
 	// Run service
 	if err := srv.Run(); err != nil {
 		logger.Fatal(err)
