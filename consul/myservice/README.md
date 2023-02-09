@@ -54,5 +54,4 @@ docker run --network=datacenter-deploy-secure_consul -e myservice_port=8080 -e c
 
 ```shell 
 go get github.com/go-micro/plugins/v4/config/source/consul
-go get github.com/go-micro/config/v4/source/flag
 ```
