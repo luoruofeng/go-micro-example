@@ -4,4 +4,8 @@ use (
 	.
 	./consul/client
 	./consul/myservice
+	./jaeger/aservice
+	./jaeger/bservice
+	./jaeger/cservice
+	./jaeger/cservice-client
 )

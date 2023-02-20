@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package cservice;
+
+option go_package = "./proto;cservice";
+
+
+import "google/protobuf/empty.proto";
+
+service Cservice {
+	rpc CMethod(google.protobuf.Empty) returns (google.protobuf.Empty) {}
+}
+
+//-----------------复制bservice
+service Bservice {
+	rpc BMethod(google.protobuf.Empty) returns (google.protobuf.Empty) {}
+}
