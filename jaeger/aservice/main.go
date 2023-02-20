@@ -26,6 +26,7 @@ func main() {
 		jaeger.FromEnv(true),
 		jaeger.GlobalTracer(true),
 	)
+	tracer.
 	if err != nil {
 		logger.Fatal(err)
 	}
